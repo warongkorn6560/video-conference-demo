@@ -2,9 +2,16 @@
 <script src="https://jitsi.mostwarong.work/external_api.js"></script>
 <script>
   jQuery(document).ready(function () {
+    // Query
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    })
+    // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+    let value = params.room // "some_value"
+    // JITSI
     const domain = 'jitsi.mostwarong.work'
     const options = {
-      roomName: 'MEETING ROOM',
+      roomName: value ? value : 'Default Room',
       width: '100%',
       height: 700,
       parentNode: document.querySelector('#meet'),

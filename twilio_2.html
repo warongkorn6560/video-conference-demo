@@ -5,13 +5,13 @@
 <script>
   jQuery(document).ready(function () {
     const Video = Twilio.Video
-    const video = document.getElementById('video')
     const { connect, createLocalVideoTrack, createLocalTracks } = Video
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImN0eSI6InR3aWxpby1mcGE7dj0xIn0.eyJqdGkiOiJTS2NlOTk5YzQ0Y2FmMjVjMDA1NzA2Y2I3MDg5Mzk5ZmQxLTE2NzM3OTU3MzIiLCJncmFudHMiOnsiaWRlbnRpdHkiOiJ3YXJvbmdrb3JuIiwidmlkZW8iOnt9fSwiaWF0IjoxNjczNzk1NzMyLCJleHAiOjE2NzM3OTkzMzIsImlzcyI6IlNLY2U5OTljNDRjYWYyNWMwMDU3MDZjYjcwODkzOTlmZDEiLCJzdWIiOiJBQzdiYzcwYzZiYWEwZmViMWM3MTk0YjIwNGQyNTNlY2EzIn0.cdEGH1eUEFknl3Ww-p_Lx-Bu--SxGF378c6ZjR083gc'
     connect(token, { name: 'conference-room' }).then(
       (room) => {
         console.log(`Successfully joined a Room: ${room}`)
+        // Participant connected
         room.on('participantConnected', (participant) => {
           console.log(`Participant "${participant.identity}" connected`)
           participant.tracks.forEach((publication) => {
@@ -33,7 +33,6 @@
         console.error(`Unable to connect to Room: ${error.message}`)
       }
     )
-
     // Option 1
     // createLocalTracks({
     //   audio: true,
@@ -48,7 +47,6 @@
     //   .then((room) => {
     //     console.log(`Connected to Room: ${room.name}`)
     //   })
-
     // Option 2
     // connect(token, {
     //   audio: true,
@@ -57,17 +55,15 @@
     // }).then((room) => {
     //   console.log(`Connected to Room: ${room.name}`)
     // })
-
     createLocalVideoTrack().then((track) => {
-      const localMediaContainer = document.getElementById('local-media')
-      localMediaContainer.appendChild(track.attach())
+      const localMediaContainer = document.getElementById('video-container')
+      localMediaContainer.append(track.attach())
     })
   })
 </script>
 
 <main>
-  <div id="local-media"></div>
-  <div id="remote-media-div"></div>
+  <div id="video-container"></div>
   <div class="container">
     <div class="info">
       <div class="square"></div>
